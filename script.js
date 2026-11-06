@@ -1,114 +1,243 @@
-var root = document.documentElement, tb = document.getElementById('theme');
+
+// ==========================================
+// THEME SWITCHING
+// ==========================================
+
+var root = document.documentElement;
+var tb = document.getElementById('theme');
+
 function setTheme(t) {
     root.setAttribute('data-theme', t);
-    tb.innerHTML = t === 'dark' ? '&#9728;' : '&#9790;';
-    try { localStorage.setItem('theme', t) } catch (e) { }
-}
-var saved = null;
-try { saved = localStorage.getItem('theme') } catch (e) { }
-setTheme(saved || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'));
-tb.onclick = function () { setTheme(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark') };
 
-var nav = document.getElementById('nav'), mb = document.getElementById('menu');
-mb.onclick = function () { var o = nav.classList.toggle('open'); mb.setAttribute('aria-expanded', o) };
-nav.addEventListener('click', function (e) { if (e.target.tagName === 'A') { nav.classList.remove('open'); mb.setAttribute('aria-expanded', false) } });
-
-var io = new IntersectionObserver(function (es) {
-    es.forEach(function (e) {
-        if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target) }
-    })
-}, { threshold: .15 });
-document.querySelectorAll('.rv').forEach(function (el, i) { el.style.transitionDelay = (i % 4) * 70 + 'ms'; io.observe(el) });
-
-var bar = document.getElementById('bar'), links = document.querySelectorAll('nav a');
-window.addEventListener('scroll', function () {
-    var h = document.documentElement; bar.style.width = (h.scrollTop / (h.scrollHeight - h.clientHeight) * 100) + '%';
-    var cur = ''; document.querySelectorAll('main section[id]').forEach(function (s) { if (s.getBoundingClientRect().top < 120) cur = s.id });
-    links.forEach(function (a) { a.classList.toggle('on', a.getAttribute('href') === '#' + cur) });
-}, { passive: true });
-
-var roles = ['Aspiring full-stack developer', 'Aspiring game developer', 'Cybersecurity learner'], ri = 0, ci = 0, del = false, t = document.getElementById('typed');
-if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { t.textContent = roles[0] } else {
-    (function tick() {
-        var w = roles[ri]; ci += del ? -1 : 1; t.textContent = w.slice(0, ci); var d = del ? 35 : 70;
-        if (!del && ci === w.length) { del = true; d = 1600 } else if (del && ci === 0) { del = false; ri = (ri + 1) % roles.length; d = 350 }
-        setTimeout(tick, d)
-    })()
-}
-
-
-
-// CONTACT FORM
-function setupContactForm() {
-    var cf = document.getElementById('cf');
-    var fs = document.getElementById('fs');
-    var sb = document.getElementById('send');
-
-    if (!cf || !fs || !sb) {
-        console.error('Contact form elements not found!');
-        return;
+    if (tb) {
+        tb.innerHTML = t === 'dark' ? '&#9728;' : '&#9790;';
     }
 
-    cf.addEventListener('submit', function(e) {
-        e.preventDefault();
+    try {
+        localStorage.setItem('theme', t);
+    } catch (e) {
+        console.warn('Unable to save theme preference.');
+    }
+}
 
-        fs.textContent = '';
-        fs.className = '';
+// Load the saved theme or use the system preference
+var saved = null;
 
-        if (!cf.checkValidity()) {
-            cf.reportValidity();
-            return;
+try {
+    saved = localStorage.getItem('theme');
+} catch (e) {
+    console.warn('Unable to access saved theme.');
+}
+
+setTheme(
+    saved ||
+    (window.matchMedia('(prefers-color-scheme: light)').matches
+        ? 'light'
+        : 'dark')
+);
+
+// Toggle between dark and light themes
+if (tb) {
+    tb.onclick = function () {
+        var currentTheme = root.getAttribute('data-theme');
+
+        setTheme(currentTheme === 'dark' ? 'light' : 'dark');
+    };
+}
+
+
+// ==========================================
+// MOBILE NAVIGATION
+// ==========================================
+
+var nav = document.getElementById('nav');
+var mb = document.getElementById('menu');
+
+// Open and close the mobile navigation menu
+if (mb && nav) {
+
+    mb.onclick = function () {
+        var isOpen = nav.classList.toggle('open');
+
+        mb.setAttribute('aria-expanded', isOpen);
+    };
+
+    // Close the menu when a navigation link is clicked
+    nav.addEventListener('click', function (e) {
+
+        if (e.target.tagName === 'A') {
+            nav.classList.remove('open');
+
+            mb.setAttribute('aria-expanded', 'false');
         }
 
-        var d = new FormData(cf);
-
-        if (d.get('_honey')) return;
-
-        sb.disabled = true;
-        sb.textContent = 'Sending...';
-
-        fetch('https://formsubmit.co/ajax/nimashagalagoda99@gmail.com', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            },
-            body: JSON.stringify({
-                name: d.get('name'),
-                email: d.get('email'),
-                message: d.get('message'),
-                _subject: 'New message from your portfolio'
-            })
-        })
-        .then(function(response) {
-            return response.json().then(function(data) {
-                if (!response.ok || data.success !== 'true') {
-                    throw new Error(data.message || 'Message sending failed');
-                }
-                return data;
-            });
-        })
-        .then(function() {
-            fs.textContent = 'Thanks! Your message has been sent.';
-            fs.className = 'success';
-            cf.reset();
-        })
-        .catch(function(error) {
-            console.error('Contact form error:', error);
-
-            fs.textContent =
-                'Could not send your message. Please try again or email me directly.';
-            fs.className = 'err';
-        })
-        .finally(function() {
-            sb.disabled = false;
-            sb.textContent = 'Send message';
-        });
     });
+
 }
 
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', setupContactForm);
+
+// ==========================================
+// SCROLL REVEAL ANIMATIONS
+// ==========================================
+
+// Reveal elements when they enter the viewport
+if ('IntersectionObserver' in window) {
+
+    var io = new IntersectionObserver(function (entries) {
+
+        entries.forEach(function (entry) {
+
+            if (entry.isIntersecting) {
+
+                entry.target.classList.add('in');
+
+                io.unobserve(entry.target);
+
+            }
+
+        });
+
+    }, {
+        threshold: 0.15
+    });
+
+    document.querySelectorAll('.rv').forEach(function (el, i) {
+
+        el.style.transitionDelay = (i % 4) * 70 + 'ms';
+
+        io.observe(el);
+
+    });
+
 } else {
-    setupContactForm();
+
+    // Show all elements if IntersectionObserver is unavailable
+    document.querySelectorAll('.rv').forEach(function (el) {
+        el.classList.add('in');
+    });
+
 }
+
+
+// ==========================================
+// SCROLL PROGRESS BAR AND ACTIVE NAVIGATION
+// ==========================================
+
+var bar = document.getElementById('bar');
+var links = document.querySelectorAll('nav a');
+
+window.addEventListener('scroll', function () {
+
+    var h = document.documentElement;
+
+    // Calculate the scroll progress percentage
+    var maxScroll = h.scrollHeight - h.clientHeight;
+
+    var progress = maxScroll > 0
+        ? (h.scrollTop / maxScroll) * 100
+        : 0;
+
+    if (bar) {
+        bar.style.width = progress + '%';
+    }
+
+    // Detect the currently active section
+    var cur = '';
+
+    document.querySelectorAll('main section[id]').forEach(function (s) {
+
+        if (s.getBoundingClientRect().top < 120) {
+            cur = s.id;
+        }
+
+    });
+
+    // Update the active navigation link
+    links.forEach(function (a) {
+
+        a.classList.toggle(
+            'on',
+            a.getAttribute('href') === '#' + cur
+        );
+
+    });
+
+}, {
+    passive: true
+});
+
+
+// ==========================================
+// TYPING ANIMATION
+// ==========================================
+
+var roles = [
+    'Aspiring full-stack developer',
+    'Aspiring game developer',
+    'Cybersecurity learner'
+];
+
+var ri = 0;
+var ci = 0;
+var del = false;
+
+var t = document.getElementById('typed');
+
+// Check whether the user prefers reduced motion
+if (t) {
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+
+        // Display the first role without animation
+        t.textContent = roles[0];
+
+    } else {
+
+        // Create the typing and deleting animation
+        (function tick() {
+
+            var w = roles[ri];
+
+            ci += del ? -1 : 1;
+
+            t.textContent = w.slice(0, ci);
+
+            var d = del ? 35 : 70;
+
+            // Pause when the complete text is displayed
+            if (!del && ci === w.length) {
+
+                del = true;
+
+                d = 1600;
+
+            }
+
+            // Move to the next role after deleting the current one
+            else if (del && ci === 0) {
+
+                del = false;
+
+                ri = (ri + 1) % roles.length;
+
+                d = 350;
+
+            }
+
+            setTimeout(tick, d);
+
+        })();
+
+    }
+
+}
+
+
+// ==========================================
+// CONTACT FORM
+// ==========================================
+
+// The contact form uses standard HTML form submission.
+// FormSubmit handles the message submission directly.
+// No JavaScript fetch() or AJAX request is required.
+// ==========================================
