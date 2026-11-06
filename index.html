@@ -89,118 +89,74 @@
 
 <section id="contact" class="contact">
     <div class="wrap">
-
         <h2 class="rv">Let's connect</h2>
-
         <p class="sub rv">
             I'm happy to hear about internships, projects, and ideas.
         </p>
-
         <div class="contact-layout">
-
             <!-- Left Side: Personal Information -->
             <div class="contact-info rv">
-
                 <h3>Contact Information</h3>
-
                 <p class="info-intro">
-                    Feel free to reach out to me through the
-                    following contact details.
+                    Feel free to reach out to me through the following contact details.
                 </p>
-
                 <div class="info-item">
                     <span class="info-label">Full Name</span>
                     <p>Nimasha Galagoda</p>
                 </div>
-
                 <div class="info-item">
                     <span class="info-label">Phone Number</span>
                     <p>0740708989</p>
                 </div>
-
                 <div class="info-item">
                     <span class="info-label">Location</span>
                     <p>Matara, Sri Lanka</p>
                 </div>
-
                 <div class="social-links">
-                    <a href="https://github.com/nimasha-0075"
-                       target="_blank" rel="noopener noreferrer">
-                        GitHub
-                    </a>
-
-                    <a href="https://www.linkedin.com/in/nimasha-galagoda-6588042ba"
-                       target="_blank" rel="noopener noreferrer">
-                        LinkedIn
-                    </a>
-                    <a href="https://mail.google.com/mail/?view=cm&fs=1&to=nimashagalagoda99@gmail.com"
-                       target="_blank" rel="noopener noreferrer">
-                        Email
-                    </a>
-
+                    <a href="https://github.com/nimasha-0075" target="_blank" rel="noopener noreferrer">GitHub</a>
+                    <a href="https://www.linkedin.com/in/nimasha-galagoda-6588042ba" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                    <a href="https://mail.google.com/mail/?view=cm&fs=1&to=nimashagalagoda99@gmail.com" target="_blank" rel="noopener noreferrer">Email</a>
                 </div>
-
             </div>
-
 
             <!-- Right Side: Contact Form -->
             <div class="contact-form-box rv">
-
                 <h3>Send Me a Message</h3>
-
                 <p class="form-intro">
-                    Have a question or an idea?
-                    I'd love to hear from you.
+                    Have a question or an idea? I'd love to hear from you.
                 </p>
 
-                <form id="cf" class="cform" novalidate>
+                <!-- FormSubmit එකට සෘජුවම connect කර ඇත -->
+                <form action="https://formsubmit.co/nimashagalagoda99@gmail.com" method="POST" class="cform">
+                    
+                    <!-- Message එක යැවුණු පසු නැවත Portfolio එකට පැමිණීමට සහ Captcha අක්‍රීය කිරීමට -->
+                    <input type="hidden" name="_next" value="https://nimasha-0075.github.io/My_portfolio/">
+                    <input type="hidden" name="_captcha" value="false">
+                    <input type="hidden" name="_subject" value="New message from your portfolio!">
 
                     <label>
                         Your name
-                        <input
-                            type="text"
-                            name="name"
-                            required
-                            autocomplete="name">
+                        <input type="text" name="name" required autocomplete="name">
                     </label>
 
                     <label>
                         Your email
-                        <input
-                            type="email"
-                            name="email"
-                            required
-                            autocomplete="email">
+                        <input type="email" name="email" required autocomplete="email">
                     </label>
 
                     <label>
                         Message
-                        <textarea
-                            name="message"
-                            required></textarea>
+                        <textarea name="message" required></textarea>
                     </label>
 
-                    <input
-                        type="text"
-                        name="_honey"
-                        tabindex="-1"
-                        autocomplete="off"
-                        style="display:none"
-                        aria-hidden="true">
+                    <!-- Spam bots වළක්වා ගැනීමට honey pot එක -->
+                    <input type="text" name="_honey" tabindex="-1" autocomplete="off" style="display:none" aria-hidden="true">
 
-                    <button
-                        class="btn fill"
-                        type="submit"
-                        id="send">
+                    <button class="btn fill" type="submit" id="send">
                         Send message
                     </button>
-
-                    <p id="fs" role="status"></p>
-
                 </form>
-
             </div>
-
         </div>
     </div>
 </section>
