@@ -104,3 +104,167 @@ nav.open{max-height:300px}nav ul{flex-direction:column;gap:0;padding:8px 22px 14
 section{padding:60px 0}
 }
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}.enter,.rv{opacity:1;transform:none}html{scroll-behavior:auto}}
+/* Contact Section Layout */
+
+.contact-layout {
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    gap: 25px;
+    align-items: stretch;
+    text-align: left;
+    margin-top: 35px;
+}
+
+/* Personal Information */
+
+.contact-info,
+.contact-form-box {
+    background: var(--card);
+    border: 1px solid var(--bd);
+    border-radius: 16px;
+    padding: 28px;
+    transition: border-color .3s, transform .3s;
+}
+
+.contact-info:hover,
+.contact-form-box:hover {
+    border-color: var(--p);
+    transform: translateY(-3px);
+}
+
+.contact-info h3,
+.contact-form-box h3 {
+    font-size: 21px;
+    margin-bottom: 12px;
+    color: var(--tx);
+}
+
+.info-intro,
+.form-intro {
+    color: var(--mu);
+    font-size: 14px;
+    margin-bottom: 25px;
+}
+
+.info-item {
+    padding: 14px 0;
+    border-bottom: 1px solid var(--bd);
+}
+
+.info-label {
+    display: block;
+    color: var(--b);
+    font-size: 13px;
+    margin-bottom: 5px;
+}
+
+.info-item p {
+    color: var(--tx);
+    font-size: 15px;
+    overflow-wrap: anywhere;
+}
+
+.info-item a {
+    color: var(--tx);
+    transition: color .25s;
+}
+
+.info-item a:hover {
+    color: var(--b);
+}
+
+/* Social Links */
+
+.social-links {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+.social-links a {
+    color: var(--b);
+    border: 1px solid var(--b);
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-size: 14px;
+    transition: .25s;
+}
+
+.social-links a:hover {
+    background: var(--b);
+    color: var(--on);
+}
+
+/* Contact Form */
+
+.contact-form-box .cform {
+    max-width: none;
+    margin: 0;
+}
+
+.contact-form-box .form-intro {
+    margin-bottom: 22px;
+}
+
+/* Mobile Responsive */
+
+@media(max-width: 760px) {
+
+    .contact-layout {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .contact-info,
+    .contact-form-box {
+        padding: 22px;
+    }
+
+}
+
+/* Common Heading Hover Effect */
+#about h2,
+#projects h2,
+#skills h2,
+#education h2,
+#contact h2 {
+    display: inline-block;
+    cursor: pointer;
+    transition: color 0.35s ease;
+}
+
+/* DARK THEME */
+[data-theme="dark"] #about h2:hover,
+[data-theme="dark"] #projects h2:hover,
+[data-theme="dark"] #skills h2:hover,
+[data-theme="dark"] #education h2:hover,
+[data-theme="dark"] #contact h2:hover {
+    background: linear-gradient(
+        90deg,
+        #00D9FF,
+        #9B5DE5,
+        #FFB6E6
+    );
+
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* LIGHT THEME */
+[data-theme="light"] #about h2:hover,
+[data-theme="light"] #projects h2:hover,
+[data-theme="light"] #skills h2:hover,
+[data-theme="light"] #education h2:hover,
+[data-theme="light"] #contact h2:hover {
+    background: linear-gradient(
+        90deg,
+        #0077B6,
+        #7136B8,
+        #D63384
+    );
+
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
