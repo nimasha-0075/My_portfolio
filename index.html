@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nimasha Galagoda | Software Engineering Undergraduate</title>
+<meta name="description" content="Portfolio of Nimasha Galagoda, a Software Engineering undergraduate at the University of Kelaniya, aspiring full-stack and game developer.">
+<meta property="og:title" content="Nimasha Galagoda | Portfolio">
+<meta property="og:description" content="Software Engineering undergraduate, aspiring full-stack and game developer.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230a1128'/%3E%3Ctext x='32' y='42' font-size='28' font-family='sans-serif' font-weight='700' text-anchor='middle' fill='%2338c8f5'%3ENG%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500&family=Space+Grotesk:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="bar"></div>
+<header>
+<div class="wrap nav">
+<a href="#home" class="logo">NG<span>.</span></a>
+<nav id="nav" aria-label="Main"><ul>
+<li><a href="#about">About</a></li><li><a href="#education">Education</a></li><li><a href="#skills">Skills</a></li><li><a href="#projects">Projects</a></li><li><a href="#contact">Contact</a></li>
+</ul></nav>
+<div class="tools">
+<button class="ib" id="theme" aria-label="Switch between dark and light theme">&#9728;</button>
+<button class="ib" id="menu" aria-label="Open menu" aria-expanded="false">&#9776;</button>
+</div>
+</div>
+</header>
+
+<main>
+<section class="hero" id="home">
+<div class="wrap">
+<div>
+<p class="hi enter">Hi, I'm</p>
+<h1 class="enter">Nimasha Galagoda</h1>
+<p class="role enter"><span id="typed"></span><i></i></p>
+<p class="lead enter">First-year Software Engineering undergraduate at the University of Kelaniya, learning by building and sharing every step on GitHub.</p>
+<div class="cta enter">
+<a class="btn fill" href="#projects">View projects</a>
+<a class="btn line" href="Nimasha-Galagoda-CV.pdf" download>Download CV</a>
+<a class="btn line" href="#contact">Contact me</a>
+</div>
+</div>
+<div class="avatar enter"><img src="avatar.png" alt="Nimasha Galagoda" width="190" height="190"></div>
+</div>
+</section>
+
+<section id="about"><div class="wrap">
+<h2 class="rv">About me</h2>
+<p class="sub rv">I'm a first-year Software Engineering undergraduate at the University of Kelaniya. I'm passionate about becoming a full-stack and game developer, and I'm also interested in cybersecurity and business.</p>
+<div class="grid">
+<div class="card rv"><h3>Full-stack development</h3><p>Building complete applications, from the database to the screen.</p></div>
+<div class="card rv"><h3>Game development</h3><p>Turning logic and creativity into playable worlds.</p></div>
+<div class="card rv"><h3>Cybersecurity</h3><p>Learning how systems break so I can build ones that don't.</p></div>
+<div class="card rv"><h3>Business</h3><p>Understanding the people and problems that software is built for.</p></div>
+</div>
+</div></section>
+
+<section id="education"><div class="wrap">
+<h2 class="rv">Education</h2>
+<p class="sub rv">Where my learning journey has taken me so far.</p>
+<div class="tl">
+<div class="it rv"><time>2026 – Present</time><h3>University of Kelaniya</h3><p>BSc (Hons) in Software Engineering</p></div>
+<div class="it rv"><time>2021 – 2024</time><h3>Sujatha Balika Vidyalaya, Matara</h3><p>G.C.E. Advanced Level, Physical Science stream</p></div>
+<div class="it rv"><time>2014 – 2020</time><h3>Matara Central College</h3><p>G.C.E. Ordinary Level</p></div>
+</div>
+</div></section>
+
+<section id="skills"><div class="wrap">
+<h2 class="rv">Skills</h2>
+<p class="sub rv">The languages and tools I use to build.</p>
+<div class="skills">
+<div class="card rv"><h3>Languages</h3><div class="tags"><span class="tag">Java</span><span class="tag">Python</span><span class="tag">C</span><span class="tag">HTML</span></div></div>
+<div class="card rv"><h3>Database</h3><div class="tags"><span class="tag">MySQL</span></div></div>
+<div class="card rv"><h3>Tools</h3><div class="tags"><span class="tag">GitHub</span><span class="tag">IntelliJ IDEA</span><span class="tag">VS Code</span></div></div>
+</div>
+</div></section>
+
+<section id="projects"><div class="wrap">
+<h2 class="rv">Projects</h2>
+<p class="sub rv">More projects will appear here as I build them.</p>
+<div class="card proj rv">
+<span class="status">In progress</span>
+<h3>Library Management System</h3>
+<p>A Java application for managing books, members, and loans, built week by week as part of my Object-Oriented Programming course.</p>
+<div class="tags"><span class="tag">Java</span><span class="tag">MySQL</span><span class="tag">GitHub</span></div>
+<div class="code">
+<div class="ch"><span>Terminal</span><button type="button" id="cp" aria-label="Copy command">Copy</button></div>
+<pre><code id="cmd"><span class="k">git clone</span> https://github.com/nimasha-0075/lms-SE-2024-014.git</code></pre>
+</div>
+<div class="cta"><a class="btn line" href="https://github.com/nimasha-0075/lms-SE-2024-014">View on GitHub</a></div>
+</div>
+</div></section>
+
+<section id="contact" class="contact"><div class="wrap">
+<h2 class="rv">Let's connect</h2>
+<p class="sub rv">I'm happy to hear about internships, projects, and ideas.</p>
+<form id="cf" class="cform rv" novalidate>
+<label>Your name<input name="name" required autocomplete="name"></label>
+<label>Your email<input type="email" name="email" required autocomplete="email"></label>
+<label>Message<textarea name="message" required></textarea></label>
+<input type="text" name="_honey" tabindex="-1" autocomplete="off" style="display:none" aria-hidden="true">
+<button class="btn fill" type="submit" id="send">Send message</button>
+<p id="fs" role="status"></p>
+</form>
+<p class="alt rv">Or reach me directly:</p>
+<div class="links rv">
+<a class="btn fill" href="mailto:nimashagalagoda99@gmail.com">Email me</a>
+<a class="btn line" href="https://github.com/nimasha-0075">GitHub</a>
+<a class="btn line" href="https://www.linkedin.com/in/nimasha-galagoda-6588042ba">LinkedIn</a>
+</div>
+</div></section>
+</main>
+
+<footer><div class="wrap">&copy; 2026 Nimasha Galagoda</div></footer>
+
+<script src="script.js"></script>
+</body>
+</html>
