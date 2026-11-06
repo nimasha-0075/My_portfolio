@@ -390,3 +390,92 @@ if (contactForm && sendButton && popup) {
     });
 
 }
+
+/* ==========================================
+   CUSTOM CIRCLE CURSOR
+   PINK DOT + PURPLE RING
+========================================== */
+
+(() => {
+    // Desktop pointer check
+    const isFinePointer = window.matchMedia(
+        "(hover: hover) and (pointer: fine)"
+    ).matches;
+
+    if (!isFinePointer) return;
+
+    // Prevent duplicate cursor elements
+    if (document.querySelector(".custom-cursor-dot")) return;
+
+    // Create cursor elements
+    const dot = document.createElement("div");
+    const ring = document.createElement("div");
+
+    dot.className = "custom-cursor-dot";
+    ring.className = "custom-cursor-ring";
+
+    // Add to page
+    document.body.appendChild(ring);
+    document.body.appendChild(dot);
+
+    // Update both positions together
+    function moveCursor(x, y) {
+        dot.style.left = `${x}px`;
+        dot.style.top = `${y}px`;
+
+        ring.style.left = `${x}px`;
+        ring.style.top = `${y}px`;
+    }
+
+    // Mouse movement
+    document.addEventListener("mousemove", (event) => {
+        moveCursor(event.clientX, event.clientY);
+
+        dot.style.opacity = "1";
+        ring.style.opacity = "1";
+    });
+
+    // Interactive elements
+    const interactiveElements = [
+        "a",
+        "button",
+        "input",
+        "textarea",
+        "select",
+        "[role='button']"
+    ].join(",");
+
+    // Hover effect
+    document.addEventListener("mouseover", (event) => {
+        if (
+            event.target instanceof Element &&
+            event.target.closest(interactiveElements)
+        ) {
+            ring.classList.add("hover");
+        } else {
+            ring.classList.remove("hover");
+        }
+    });
+
+    // Click effect
+    document.addEventListener("mousedown", () => {
+        ring.classList.add("click");
+    });
+
+    document.addEventListener("mouseup", () => {
+        ring.classList.remove("click");
+    });
+
+    // Hide when mouse leaves page
+    document.addEventListener("mouseleave", () => {
+        dot.style.opacity = "0";
+        ring.style.opacity = "0";
+    });
+
+    // Reset when window loses focus
+    window.addEventListener("blur", () => {
+        ring.classList.remove("click", "hover");
+    });
+
+})();
+
