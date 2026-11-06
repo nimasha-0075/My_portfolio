@@ -392,89 +392,237 @@ if (contactForm && sendButton && popup) {
 }
 
 /* ==========================================
-   CUSTOM CIRCLE CURSOR
-   PINK DOT + PURPLE RING
+   CUSTOM CURSOR - DUAL THEME
+   DARK: PINK + PURPLE
+   LIGHT: NAVY BLUE + PURPLE
 ========================================== */
 
 (() => {
-    // Desktop pointer check
-    const isFinePointer = window.matchMedia(
+
+    // Check desktop pointer
+    const finePointer = window.matchMedia(
         "(hover: hover) and (pointer: fine)"
     ).matches;
 
-    if (!isFinePointer) return;
+    if (!finePointer) return;
 
     // Prevent duplicate cursor elements
     if (document.querySelector(".custom-cursor-dot")) return;
 
     // Create cursor elements
-    const dot = document.createElement("div");
-    const ring = document.createElement("div");
+    const dot = document.createElement("span");
+    const ring = document.createElement("span");
 
     dot.className = "custom-cursor-dot";
     ring.className = "custom-cursor-ring";
 
-    // Add to page
-    document.body.appendChild(ring);
-    document.body.appendChild(dot);
+    dot.setAttribute("aria-hidden", "true");
+    ring.setAttribute("aria-hidden", "true");
 
-    // Update both positions together
-    function moveCursor(x, y) {
-        dot.style.left = `${x}px`;
-        dot.style.top = `${y}px`;
+    document.body.append(dot, ring);
+    document.body.classList.add("has-custom-cursor");
 
-        ring.style.left = `${x}px`;
-        ring.style.top = `${y}px`;
+    // Cursor positions
+    let mouseX = -100;
+    let mouseY = -100;
+
+    let ringX = -100;
+    let ringY = -100;
+
+    let cursorVisible = false;
+    let animationFrame = null;
+
+    // ======================================
+    // DETECT CURRENT THEME
+    // ======================================
+
+    function getBackgroundBrightness(color) {
+
+        const match = color.match(/\d+/g);
+
+        if (!match || match.length < 3) return 0;
+
+        const r = Number(match[0]);
+        const g = Number(match[1]);
+        const b = Number(match[2]);
+
+        return (r * 299 + g * 587 + b * 114) / 1000;
+    }
+
+    function updateCursorTheme() {
+
+        const bodyBackground =
+            getComputedStyle(document.body).backgroundColor;
+
+        const htmlBackground =
+            getComputedStyle(document.documentElement).backgroundColor;
+
+        const bodyBrightness =
+            getBackgroundBrightness(bodyBackground);
+
+        const htmlBrightness =
+            getBackgroundBrightness(htmlBackground);
+
+        // Prefer the body's background when it is not transparent
+        const background = bodyBackground !== "rgba(0, 0, 0, 0)"
+            ? bodyBrightness
+            : htmlBrightness;
+
+        const isLightTheme = background > 150;
+
+        document.documentElement.dataset.cursorTheme =
+            isLightTheme ? "light" : "dark";
+    }
+
+    // Initial theme detection
+    updateCursorTheme();
+
+    // Detect theme button clicks
+    const themeButton = document.getElementById("theme");
+
+    if (themeButton) {
+        themeButton.addEventListener("click", () => {
+            requestAnimationFrame(() => {
+                requestAnimationFrame(updateCursorTheme);
+            });
+        });
+    }
+
+    // Detect theme class or style changes
+    const themeObserver = new MutationObserver(() => {
+        updateCursorTheme();
+    });
+
+    themeObserver.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ["class", "style"]
+    });
+
+    themeObserver.observe(document.body, {
+        attributes: true,
+        attributeFilter: ["class", "style"]
+    });
+
+    // ======================================
+    // CURSOR MOVEMENT
+    // ======================================
+
+    function animateRing() {
+
+        // Smooth ring movement
+        ringX += (mouseX - ringX) * 0.20;
+        ringY += (mouseY - ringY) * 0.20;
+
+        ring.style.transform =
+            `translate3d(${ringX}px, ${ringY}px, 0)`;
+
+        animationFrame = requestAnimationFrame(animateRing);
     }
 
     // Mouse movement
-    document.addEventListener("mousemove", (event) => {
-        moveCursor(event.clientX, event.clientY);
+    window.addEventListener("pointermove", (event) => {
 
-        dot.style.opacity = "1";
-        ring.style.opacity = "1";
-    });
+        if (event.pointerType === "touch") return;
 
-    // Interactive elements
+        mouseX = event.clientX;
+        mouseY = event.clientY;
+
+        // Dot follows immediately
+        dot.style.transform =
+            `translate3d(${mouseX}px, ${mouseY}px, 0)`;
+
+        // Show cursor
+        if (!cursorVisible) {
+            cursorVisible = true;
+
+            dot.style.opacity = "1";
+            ring.style.opacity = "1";
+        }
+
+    }, { passive: true });
+
+    // Start animation
+    animateRing();
+
+    // ======================================
+    // HOVER EFFECT
+    // ======================================
+
     const interactiveElements = [
         "a",
         "button",
         "input",
         "textarea",
         "select",
+        "summary",
         "[role='button']"
     ].join(",");
 
-    // Hover effect
-    document.addEventListener("mouseover", (event) => {
+    document.addEventListener("pointerover", (event) => {
+
         if (
             event.target instanceof Element &&
             event.target.closest(interactiveElements)
         ) {
-            ring.classList.add("hover");
-        } else {
-            ring.classList.remove("hover");
+            ring.classList.add("is-hovering");
         }
+
     });
 
-    // Click effect
-    document.addEventListener("mousedown", () => {
-        ring.classList.add("click");
+    document.addEventListener("pointerout", (event) => {
+
+        if (
+            event.target instanceof Element &&
+            event.target.closest(interactiveElements) &&
+            (
+                !event.relatedTarget ||
+                !event.relatedTarget.closest?.(interactiveElements)
+            )
+        ) {
+            ring.classList.remove("is-hovering");
+        }
+
     });
 
-    document.addEventListener("mouseup", () => {
-        ring.classList.remove("click");
+    // ======================================
+    // CLICK EFFECT
+    // ======================================
+
+    document.addEventListener("pointerdown", () => {
+        ring.classList.add("is-pressed");
     });
 
-    // Hide when mouse leaves page
-    document.addEventListener("mouseleave", () => {
+    window.addEventListener("pointerup", () => {
+        ring.classList.remove("is-pressed");
+    });
+
+    // ======================================
+    // HIDE AND SHOW CURSOR
+    // ======================================
+
+    function hideCursor() {
+
+        cursorVisible = false;
+
         dot.style.opacity = "0";
         ring.style.opacity = "0";
-    });
 
-    // Reset when window loses focus
-    window.addEventListener("blur", () => {
-        ring.classList.remove("click", "hover");
+        ring.classList.remove(
+            "is-hovering",
+            "is-pressed"
+        );
+    }
+
+    document.addEventListener("mouseleave", hideCursor);
+    window.addEventListener("blur", hideCursor);
+
+    // Stop animation when page is hidden
+    document.addEventListener("visibilitychange", () => {
+
+        if (document.hidden) {
+            hideCursor();
+        }
+
     });
 
 })();
