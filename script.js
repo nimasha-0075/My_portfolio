@@ -241,3 +241,152 @@ if (t) {
 // FormSubmit handles the message submission directly.
 // No JavaScript fetch() or AJAX request is required.
 // ==========================================
+
+// ==========================================
+// WEB3FORMS CONTACT FORM SUBMISSION
+// ==========================================
+
+var contactForm = document.querySelector('.cform');
+
+var sendButton = document.getElementById('send');
+
+var popup = document.getElementById('messagePopup');
+
+var popupIcon = document.getElementById('popupIcon');
+
+var popupTitle = document.getElementById('popupTitle');
+
+var popupMessage = document.getElementById('popupMessage');
+
+var popupClose = document.getElementById('popupClose');
+
+
+// Show the confirmation popup
+function showPopup(success, message) {
+
+    if (success) {
+        popupIcon.textContent = '✓';
+        popupIcon.className = 'popup-icon';
+
+        popupTitle.textContent = 'Message Sent!';
+        popupMessage.textContent =
+            'Thank you! Your message has been sent successfully.';
+    } else {
+        popupIcon.textContent = '✕';
+        popupIcon.className = 'popup-icon error';
+
+        popupTitle.textContent = 'Message Not Sent!';
+        popupMessage.textContent = message ||
+            'Something went wrong. Please try again.';
+    }
+
+    popup.classList.add('show');
+    popup.setAttribute('aria-hidden', 'false');
+
+    document.body.classList.add('popup-open');
+
+    popupClose.focus();
+}
+
+
+// Close the popup
+function closePopup() {
+
+    popup.classList.remove('show');
+    popup.setAttribute('aria-hidden', 'true');
+
+    document.body.classList.remove('popup-open');
+}
+
+if (popupClose && popup) {
+
+    popupClose.addEventListener('click', closePopup);
+
+    // Close popup when clicking outside the box
+    popup.addEventListener('click', function (e) {
+
+        if (e.target === popup) {
+            closePopup();
+        }
+
+    });
+
+    // Close popup using the Escape key
+    document.addEventListener('keydown', function (e) {
+
+        if (e.key === 'Escape' && popup.classList.contains('show')) {
+            closePopup();
+        }
+
+    });
+
+}
+
+
+// Handle contact form submission
+if (contactForm && sendButton && popup) {
+
+    contactForm.addEventListener('submit', async function (e) {
+
+        e.preventDefault();
+
+        if (!contactForm.checkValidity()) {
+            contactForm.reportValidity();
+            return;
+        }
+
+        sendButton.disabled = true;
+        sendButton.textContent = 'Sending...';
+
+        try {
+
+            var formData = new FormData(contactForm);
+
+            var response = await fetch(
+                'https://api.web3forms.com/submit',
+                {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                }
+            );
+
+            var result = await response.json();
+
+            if (!response.ok ||
+                !(result.success === true || result.success === 'true')) {
+
+                throw new Error(
+                    result.message || 'Message submission failed.'
+                );
+
+            }
+
+            // Clear the form after successful submission
+            contactForm.reset();
+
+            // Show success confirmation
+            showPopup(true);
+
+        } catch (error) {
+
+            console.error('Contact form error:', error);
+
+            // Show error confirmation
+            showPopup(
+                false,
+                error.message || 'Please try again later.'
+            );
+
+        } finally {
+
+            sendButton.disabled = false;
+            sendButton.textContent = 'Send message';
+
+        }
+
+    });
+
+}

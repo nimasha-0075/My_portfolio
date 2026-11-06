@@ -295,3 +295,280 @@ section{padding:60px 0}
     opacity: 0.8;
 }
 
+/* ==========================================
+   PREMIUM MESSAGE CONFIRMATION POPUP
+========================================== */
+
+.popup-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+
+    background: rgba(10, 15, 35, 0.72);
+    backdrop-filter: blur(9px);
+    -webkit-backdrop-filter: blur(9px);
+
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.35s ease;
+}
+
+.popup-overlay.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Main Popup Card */
+.popup-box {
+    position: relative;
+    overflow: hidden;
+
+    width: 100%;
+    max-width: 410px;
+    padding: 42px 30px 35px;
+
+    border-radius: 26px;
+    text-align: center;
+
+    background: linear-gradient(
+        145deg,
+        #ffffff,
+        #f5f3ff
+    );
+
+    color: #172033 !important;
+
+    border: 1px solid rgba(139, 124, 255, 0.18);
+
+    box-shadow:
+        0 25px 80px rgba(0, 0, 0, 0.25),
+        0 0 40px rgba(124, 92, 255, 0.12);
+
+    transform: translateY(30px) scale(0.92);
+    transition: transform 0.4s cubic-bezier(.2,.8,.2,1);
+}
+
+.popup-overlay.show .popup-box {
+    transform: translateY(0) scale(1);
+}
+
+/* Decorative Background Graphics */
+.popup-box::before {
+    content: "";
+    position: absolute;
+    width: 190px;
+    height: 190px;
+    border-radius: 50%;
+
+    background: radial-gradient(
+        circle,
+        rgba(124, 92, 255, 0.13),
+        transparent 70%
+    );
+
+    top: -95px;
+    right: -65px;
+    pointer-events: none;
+}
+
+.popup-box::after {
+    content: "";
+    position: absolute;
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+
+    background: radial-gradient(
+        circle,
+        rgba(56, 189, 248, 0.12),
+        transparent 70%
+    );
+
+    bottom: -65px;
+    left: -55px;
+    pointer-events: none;
+}
+
+/* Success / Error Graphic */
+.popup-icon {
+    position: relative;
+    z-index: 1;
+
+    width: 88px;
+    height: 88px;
+    margin: 0 auto 24px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    font-size: 48px;
+    font-weight: 600;
+    color: #ffffff !important;
+
+    background: linear-gradient(
+        135deg,
+        #34d399,
+        #059669
+    );
+
+    box-shadow:
+        0 10px 25px rgba(16, 185, 129, 0.25),
+        0 0 0 9px rgba(16, 185, 129, 0.10);
+
+    animation: popupIconIn 0.55s ease both;
+}
+
+/* Error Graphic */
+.popup-icon.error {
+    background: linear-gradient(
+        135deg,
+        #fb7185,
+        #dc2626
+    );
+
+    box-shadow:
+        0 10px 25px rgba(220, 38, 38, 0.22),
+        0 0 0 9px rgba(220, 38, 38, 0.10);
+}
+
+/* Popup Heading */
+.popup-box h3 {
+    position: relative;
+    z-index: 1;
+
+    margin: 0 0 12px;
+
+    font-size: 27px;
+    font-weight: 700;
+    letter-spacing: -0.7px;
+
+    color: #172033 !important;
+}
+
+/* Popup Description */
+.popup-box p {
+    position: relative;
+    z-index: 1;
+
+    margin: 0 auto 28px;
+    max-width: 310px;
+
+    font-size: 15px;
+    line-height: 1.8;
+
+    color: #64748b !important;
+}
+
+/* Confirmation Button */
+.popup-box button.btn.fill {
+    position: relative;
+    z-index: 1;
+
+    min-width: 165px;
+    padding: 13px 28px;
+
+    border: none;
+    border-radius: 12px;
+
+    background: linear-gradient(
+        135deg,
+        #7c3aed,
+        #6366f1
+    ) !important;
+
+    color: #ffffff !important;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 7px 18px rgba(99, 102, 241, 0.28);
+
+    transition: all 0.25s ease;
+}
+
+.popup-box button.btn.fill:hover {
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 11px 25px rgba(99, 102, 241, 0.38);
+}
+
+.popup-box button.btn.fill:active {
+    transform: scale(0.96);
+}
+
+.popup-box button:focus-visible {
+    outline: 3px solid #a78bfa;
+    outline-offset: 4px;
+}
+
+/* Icon Animation */
+@keyframes popupIconIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.4) rotate(-25deg);
+    }
+
+    70% {
+        transform: scale(1.12) rotate(5deg);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1) rotate(0);
+    }
+}
+
+/* Prevent Background Scrolling */
+body.popup-open {
+    overflow: hidden;
+}
+
+/* Mobile Responsive */
+@media (max-width: 480px) {
+
+    .popup-box {
+        max-width: 350px;
+        padding: 35px 22px 30px;
+        border-radius: 22px;
+    }
+
+    .popup-icon {
+        width: 76px;
+        height: 76px;
+        font-size: 42px;
+    }
+
+    .popup-box h3 {
+        font-size: 24px;
+    }
+
+    .popup-box p {
+        font-size: 14px;
+    }
+}
+
+/* Accessibility: Reduce Animations */
+@media (prefers-reduced-motion: reduce) {
+
+    .popup-overlay,
+    .popup-box,
+    .popup-icon,
+    .popup-box button {
+        animation: none !important;
+        transition: none !important;
+    }
+
+}
+
