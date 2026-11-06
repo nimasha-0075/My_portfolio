@@ -282,93 +282,77 @@
                     </div>
 
 
-                    <!-- Contact Form -->
-                    <div class="contact-form-box rv">
+                   
+<!-- Contact Form -->
+<div class="contact-form-box rv">
 
-                        <h3>Send Me a Message</h3>
+    <h3>Send Me a Message</h3>
 
-                        <p class="form-intro">
-                            Have a question or an idea? I'd love to hear from you.
-                        </p>
+    <p class="form-intro">
+        Have a question or an idea? I'd love to hear from you.
+    </p>
 
-                        <!-- FormSubmit Direct Form Submission -->
-                        <form
-                            action="https://formsubmit.co/nimashagalagoda99@gmail.com"
-                            method="POST"
-                            class="cform"
-                        >
+    <form action="https://api.web3forms.com/submit"
+          method="POST"
+          class="cform">
 
-                            <!-- Redirect visitors to the portfolio after submission -->
-                            <input
-                                type="hidden"
-                                name="_next"
-                                value="https://nimasha-0075.github.io/My_portfolio/"
-                            >
+        <!-- Web3Forms Access Key -->
+        <input type="hidden"
+               name="access_key"
+               value="bfac890f-de30-43a1-acfb-32c1b8ec961e">
 
-                            <!-- Disable the FormSubmit CAPTCHA -->
-                            <input
-                                type="hidden"
-                                name="_captcha"
-                                value="false"
-                            >
+        <!-- Email Subject -->
+        <input type="hidden"
+               name="subject"
+               value="New message from Nimasha's Portfolio">
 
-                            <!-- Email subject -->
-                            <input
-                                type="hidden"
-                                name="_subject"
-                                value="New message from your portfolio!"
-                            >
+        <!-- Sender Name -->
+        <input type="hidden"
+               name="from_name"
+               value="Nimasha Galagoda Portfolio">
 
-                            <!-- Name Field -->
-                            <label>
-                                Your name
+        <!-- Redirect After Successful Submission -->
+        <input type="hidden"
+               name="redirect"
+               value="https://nimasha-0075.github.io/My_portfolio/">
 
-                                <input
-                                    type="text"
-                                    name="name"
-                                    required
-                                    autocomplete="name"
-                                >
-                            </label>
+        <!-- Name Field -->
+        <label>
+            Your name
+            <input type="text"
+                   name="name"
+                   required
+                   autocomplete="name">
+        </label>
 
-                            <!-- Email Field -->
-                            <label>
-                                Your email
+        <!-- Email Field -->
+        <label>
+            Your email
+            <input type="email"
+                   name="email"
+                   required
+                   autocomplete="email">
+        </label>
 
-                                <input
-                                    type="email"
-                                    name="email"
-                                    required
-                                    autocomplete="email"
-                                >
-                            </label>
+        <!-- Message Field -->
+        <label>
+            Message
+            <textarea name="message" required></textarea>
+        </label>
 
-                            <!-- Message Field -->
-                            <label>
-                                Message
+        <!-- Spam Protection -->
+        <input type="checkbox"
+               name="botcheck"
+               style="display:none"
+               tabindex="-1">
 
-                                <textarea
-                                    name="message"
-                                    required
-                                ></textarea>
-                            </label>
+        <!-- Submit Button -->
+        <button class="btn fill" type="submit" id="send">
+            Send message
+        </button>
 
-                            <!-- Honeypot Field for Spam Protection -->
-                            <input
-                                type="text"
-                                name="_honey"
-                                tabindex="-1"
-                                autocomplete="off"
-                                style="display:none"
-                                aria-hidden="true"
-                            >
-
-                            <!-- Submit Button -->
-                            <button class="btn fill" type="submit" id="send">
-                                Send message
-                            </button>
-
-                        </form>
+    </form>
+</div>
 
                     </div>
 
