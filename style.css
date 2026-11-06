@@ -268,3 +268,30 @@ section{padding:60px 0}
     background-clip: text;
     -webkit-text-fill-color: transparent;
 }
+
+/* Professional Skill Card Headings */
+.skill-card h3 {
+    display: inline-block;
+
+    background: linear-gradient(
+        90deg,
+        #C5A4E8,
+        #91B9E8,
+        #D9A9C9
+    );
+
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    font-weight: 600;
+    letter-spacing: 0.3px;
+
+    transition: opacity 0.3s ease;
+}
+
+/* Subtle Hover Effect */
+.skill-card h3:hover {
+    opacity: 0.8;
+}
+

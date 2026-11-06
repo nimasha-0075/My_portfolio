@@ -29,17 +29,78 @@ cp.onclick=function(){var tx=document.getElementById('cmd').textContent;
 function done(){cp.textContent='Copied';setTimeout(function(){cp.textContent='Copy'},1600)}
 if(navigator.clipboard){navigator.clipboard.writeText(tx).then(done,function(){})}};
 
-var cf=document.getElementById('cf'),fs=document.getElementById('fs'),sb=document.getElementById('send');
-cf.addEventListener('submit',function(e){
-e.preventDefault();fs.className='';
-if(!cf.checkValidity()){cf.reportValidity();return}
-var d=new FormData(cf);
-if(d.get('_honey'))return;
-sb.disabled=true;sb.textContent='Sending...';
-fetch('https://formsubmit.co/ajax/nimashagalagoda99@gmail.com',{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},
-body:JSON.stringify({name:d.get('name'),email:d.get('email'),message:d.get('message'),_subject:'New message from your portfolio'})})
-.then(function(r){if(!r.ok)throw 0;return r.json()})
-.then(function(){fs.textContent='Thanks, your message has been sent.';cf.reset()})
-.catch(function(){fs.className='err';fs.textContent='Could not send right now. Please email me directly instead.'})
-.finally(function(){sb.disabled=false;sb.textContent='Send message'});
-});
+
+// CONTACT FORM
+function setupContactForm() {
+    var cf = document.getElementById('cf');
+    var fs = document.getElementById('fs');
+    var sb = document.getElementById('send');
+
+    if (!cf || !fs || !sb) {
+        console.error('Contact form elements not found!');
+        return;
+    }
+
+    cf.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        fs.textContent = '';
+        fs.className = '';
+
+        if (!cf.checkValidity()) {
+            cf.reportValidity();
+            return;
+        }
+
+        var d = new FormData(cf);
+
+        if (d.get('_honey')) return;
+
+        sb.disabled = true;
+        sb.textContent = 'Sending...';
+
+        fetch('https://formsubmit.co/ajax/nimashagalagoda99@gmail.com', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                name: d.get('name'),
+                email: d.get('email'),
+                message: d.get('message'),
+                _subject: 'New message from your portfolio'
+            })
+        })
+        .then(function(response) {
+            return response.json().then(function(data) {
+                if (!response.ok || data.success !== 'true') {
+                    throw new Error(data.message || 'Message sending failed');
+                }
+                return data;
+            });
+        })
+        .then(function() {
+            fs.textContent = 'Thanks! Your message has been sent.';
+            fs.className = 'success';
+            cf.reset();
+        })
+        .catch(function(error) {
+            console.error('Contact form error:', error);
+
+            fs.textContent =
+                'Could not send your message. Please try again or email me directly.';
+            fs.className = 'err';
+        })
+        .finally(function() {
+            sb.disabled = false;
+            sb.textContent = 'Send message';
+        });
+    });
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setupContactForm);
+} else {
+    setupContactForm();
+}
