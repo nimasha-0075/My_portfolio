@@ -24,17 +24,7 @@ if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){t.textContent=
 if(!del&&ci===w.length){del=true;d=1600}else if(del&&ci===0){del=false;ri=(ri+1)%roles.length;d=350}
 setTimeout(tick,d)})()}
 
-var cp=document.getElementById('cp');
-if (cp) {
-    cp.onclick=function(){
-        var cmdEl = document.getElementById('cmd');
-        if (cmdEl) {
-            var tx = cmdEl.textContent;
-            function done(){cp.textContent='Copied';setTimeout(function(){cp.textContent='Copy'},1600)}
-            if(navigator.clipboard){navigator.clipboard.writeText(tx).then(done,function(){})}
-        }
-    };
-}
+
 
 // CONTACT FORM
 function setupContactForm() {
