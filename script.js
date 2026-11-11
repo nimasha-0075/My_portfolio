@@ -626,4 +626,8 @@ if (contactForm && sendButton && popup) {
     });
 
 })();
+fetch('https://nimasha-portfolio.goatcounter.com/counter/TOTAL.json')
+.then(function(r){if(!r.ok)throw 0;return r.json()})
+.then(function(d){if(d.count&&d.count!=='0'){document.getElementById('views').textContent=' | '+d.count+' visits'}})
+.catch(function(){});
 
